@@ -5,10 +5,11 @@ import "@daonomic/util/contracts/OwnableImpl.sol";
 import "@daonomic/sale/contracts/CappedBonusSale.sol";
 import "@daonomic/util/contracts/SecuredImpl.sol";
 import "@daonomic/sale/contracts/WhitelistSale.sol";
+import "@daonomic/sale/contracts/PeriodSale.sol";
 import "./DaoxCommissionSale.sol";
 import "./DemoToken.sol";
 
-contract DemoSale is OwnableImpl, SecuredImpl, DaoxCommissionSale, MintingSale, CappedBonusSale, WhitelistSale {
+contract DemoSale is OwnableImpl, SecuredImpl, DaoxCommissionSale, MintingSale, CappedBonusSale, WhitelistSale, PeriodSale {
 	address public btcToken;
 	uint256 public ethRate = 1000 * 10**18;
 	uint256 public btcEthRate = 10 * 10**10;
@@ -16,7 +17,10 @@ contract DemoSale is OwnableImpl, SecuredImpl, DaoxCommissionSale, MintingSale, 
 	function DemoSale(
 		address _mintableToken,
 		address _btcToken,
+		uint256 _start,
+		uint256 _end,
 		uint256 _cap)
+	PeriodSale(_start, _end)
 	MintingSale(_mintableToken)
 	CappedBonusSale(_cap) {
 		btcToken = _btcToken;

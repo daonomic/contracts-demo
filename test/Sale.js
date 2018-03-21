@@ -27,7 +27,8 @@ contract("Sale", accounts => {
   }
 
   it("should sell tokens for ether", async () => {
-    var sale = await Sale.new(token.address, 100, 1000000);
+    var now = new Date().getTime() / 1000;
+    var sale = await Sale.new(token.address, 100, now - 100, now + 86400, 1000000);
     await allow(sale, accounts[1]);
     await token.transferOwnership(sale.address);
 
@@ -37,7 +38,8 @@ contract("Sale", accounts => {
   });
 
   it("should not sell tokens if not in whitelist", async () => {
-    var sale = await Sale.new(token.address, 100, 1000000);
+    var now = new Date().getTime() / 1000;
+    var sale = await Sale.new(token.address, 100, now - 100, now + 86400, 1000000);
     await token.transferOwnership(sale.address);
 
     await expectThrow(
@@ -46,7 +48,8 @@ contract("Sale", accounts => {
   });
 
   it("should sell tokens for btc", async () => {
-    var sale = await Sale.new(token.address, accounts[5], bn("1000000000000000000000000"));
+    var now = new Date().getTime() / 1000;
+    var sale = await Sale.new(token.address, accounts[5], now - 100, now + 86400, bn("1000000000000000000000000"));
     await allow(sale, accounts[1]);
     await token.transferOwnership(sale.address);
 
@@ -56,7 +59,8 @@ contract("Sale", accounts => {
   });
 
   it("should change eth/btc rate", async () => {
-    var sale = await Sale.new(token.address, accounts[5], bn("1000000000000000000000000"));
+    var now = new Date().getTime() / 1000;
+    var sale = await Sale.new(token.address, accounts[5], now - 100, now + 86400, bn("1000000000000000000000000"));
     await allow(sale, accounts[1]);
     await token.transferOwnership(sale.address);
 
@@ -67,7 +71,8 @@ contract("Sale", accounts => {
   });
 
   it("should transfer token ownership", async () => {
-    var sale = await Sale.new(token.address, 100, 1000000);
+    var now = new Date().getTime() / 1000;
+    var sale = await Sale.new(token.address, 100, now - 100, now + 86400, 1000000);
     await allow(sale, accounts[1]);
     await token.transferOwnership(sale.address);
 
@@ -83,7 +88,8 @@ contract("Sale", accounts => {
   });
 
   it("should throw if cap reached", async () => {
-    var sale = await Sale.new(token.address, 100, 1500);
+    var now = new Date().getTime() / 1000;
+    var sale = await Sale.new(token.address, 100, now - 100, now + 86400, 1500);
     await allow(sale, accounts[1]);
     await token.transferOwnership(sale.address);
 
@@ -98,7 +104,8 @@ contract("Sale", accounts => {
 
   it("should calculate bonus correctly", async () => {
     async function testBonus(sold, testBonus) {
-        var sale = await Sale.new(token.address, 100, 1000000);
+        var now = new Date().getTime() / 1000;
+        var sale = await Sale.new(token.address, 100, now - 100, now + 86400, 1000000);
         var result = await sale.getBonus(sold);
         assert(testBonus.equals(result), testBonus.toNumber() + " != " + result.toNumber());
     }
@@ -111,7 +118,8 @@ contract("Sale", accounts => {
   });
 
   it("should sell to users from whitelist", async () => {
-    var sale = await Sale.new(token.address, 100, 1000000000);
+    var now = new Date().getTime() / 1000;
+    var sale = await Sale.new(token.address, 100, now - 100, now + 86400, 1000000000);
     await setOperator(sale);
     await sale.setWhitelist(accounts[1], true, {from: accounts[9]});
 
@@ -127,7 +135,8 @@ contract("Sale", accounts => {
   });
 
   it("should transfer tokens sold some other way (no bonus)", async () => {
-    var sale = await Sale.new(token.address, 100, 1000000);
+    var now = new Date().getTime() / 1000;
+    var sale = await Sale.new(token.address, 100, now - 100, now + 86400, 1000000);
     await token.transferOwnership(sale.address);
 
 	var address = randomAddress();
@@ -140,7 +149,8 @@ contract("Sale", accounts => {
   });
 
   it("should emulate purchase", async () => {
-    var sale = await Sale.new(token.address, 100, 1000000);
+    var now = new Date().getTime() / 1000;
+    var sale = await Sale.new(token.address, 100, now - 100, now + 86400, 1000000);
     await token.transferOwnership(sale.address);
 
 	var address = randomAddress();
