@@ -6,9 +6,9 @@ module.exports = {
       },
       network_id: 3,
       from: "0x1a65c05c7873ee1c5445a0e147feefbe1e773f48",
-      gas: 1700000,//sale
-//      gas: 1000000,//token
-	  gasPrice: 3000000000
+//      gas: 2000000,//sale/token
+      gas: 100000,//small transactions
+	  gasPrice: 10000000000
     }
   },
   solc: {
